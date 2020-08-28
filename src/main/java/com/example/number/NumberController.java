@@ -1,7 +1,6 @@
 package com.example.number;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,11 +12,10 @@ public class NumberController {
 
         int answer = (firstNumber + secondNumber) % 2;
 
-        if (answer == 0) {
-            return 200;
-        } else {
+        if (answer != 0) {
             return 207;
         }
+        return 200;
     }
 
     @GetMapping("/odd")
@@ -27,16 +25,15 @@ public class NumberController {
 
         if (answer == 1) {
             return 200;
-        } else {
-            return 207;
         }
+        return 207;
     }
 
     @GetMapping("/palindrome")
     public String getIsPalindrome(@RequestParam(value = "word") String word) {
 
         int number = word.length();
-        for (int i = 0; i < (number/2); i++) {
+        for (int i = 0; i < (number / 2); i++) {
             if (word.charAt(i) != word.charAt(number - i - 1)) {
                 return "Not a palindrome";
             }
@@ -46,23 +43,9 @@ public class NumberController {
 
     @GetMapping("/leap")
     public int getIsLeapYear(@RequestParam(value = "year") Integer year) {
-        boolean isLeap = false;
 
-        if (year % 4 == 0) {
-            if (year % 100 == 0) {
-                if (year % 400 == 0)
-                    isLeap = true;
-                else
-                    isLeap = false;
-            } else
-                isLeap = true;
-        } else {
-            isLeap = false;
-        }
-        if(isLeap == true)
+        if (((year % 4 == 0) & (year % 100 != 0)) || (year % 400 == 0))
             return 200;
-        else
-            return 207;
+        return 207;
     }
-
 }
